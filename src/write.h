@@ -6,18 +6,21 @@
 #include <fstream>
 #include <filesystem>
 #include <map>
+#include <iostream>
 
 namespace fs = std::filesystem;
 
 
 enum class FileFormat {
-	png, jpg
+	png, jpg, svg, text
 };
 
 inline const std::map<std::string,FileFormat> fileFormat_map {
 	{".png", FileFormat::png},
 	{".jpg", FileFormat::jpg},
 	{".jpeg", FileFormat::jpg},
+	{".svg", FileFormat::svg},
+	{".txt", FileFormat::text}
 };
 
 struct WriteCtx {
@@ -27,7 +30,8 @@ struct WriteCtx {
 	ZXing::BarcodeFormat format;
 	FileFormat fileFormat = FileFormat::png;
 	int size;
-	bool quietZone = true;
+	bool margin = true;
+	bool terminal = false;
 };
 
 struct WriteFormat {
@@ -53,11 +57,18 @@ void write(const WriteCtx& ctx, const std::string& target) {
 		ZXing::BarcodeFormat::QRCode
 	);
 
+
+	if (ctx.terminal) {
+		std::cout << ZXing::WriteBarcodeToUtf8(barcode);
+		return;
+	}
+
+
 	auto image = ZXing::WriteBarcodeToImage(
 		barcode,
 		ZXing::WriterOptions()
 			.scale(ctx.size)
-			.addQuietZones(ctx.quietZone)
+			.addQuietZones(ctx.margin)
 	);
 
 
@@ -88,6 +99,18 @@ void write(const WriteCtx& ctx, const std::string& target) {
 				image.rowStride()
 			);
 		} break;
+		case FileFormat::svg: {
+			std::ofstream ofs(opath);
+			if (!ofs) throw std::runtime_error("write(): svg: File open error");
+			ofs << ZXing::WriteBarcodeToSVG(barcode);
+		} break;
+		case FileFormat::text: {
+			std::ofstream ofs(opath);
+			if (!ofs) throw std::runtime_error("write(): text: File open error");
+			ofs << ZXing::WriteBarcodeToUtf8(barcode);
+		} break;
 	}
+
+	std::cout << "Saved to " << opath.string() << "\n";
 
 }
