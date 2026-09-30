@@ -71,14 +71,15 @@ int main(int argc, char *argv[]) {
 	// parse
 	CLI11_PARSE(app, argc, argv);
 
-	// std::cout << ZXing::ToString(writeCtx.format);
-
 	if (!writeCtx.textMode && !writeCtx.fileMode) writeCtx.textMode = true;
 
 
 	if (subWrite->parsed())
 		write(writeCtx, target);
-	// else if (subWrite->parsed())
-		// read(target);
+	else if (subRead->parsed()) {
+		const auto& code = parseImg(target);
+		std::cout << code.text();
+		std::cerr << "\n";
+	}
 	
 }

@@ -33,7 +33,9 @@ ZXing::Barcode parseImg(const std::string& filename) {
 
 	stbi_image_free(data);
 
-	if (!result.isValid()) throw std::runtime_error("System couldn't parse image.");
+	if (!result.isValid()) throw std::runtime_error(
+		"System couldn't parse image: " + result.error().msg()
+	);
 
 	return result;
 }
