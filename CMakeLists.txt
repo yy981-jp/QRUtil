@@ -16,15 +16,26 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build)
 
 set(EXE_NAME "qr")
 
-# Build CLI11 as a static library instead of header-only
+# CLI11
 set(CLI11_PRECOMPILED ON CACHE BOOL "Build CLI11 as a precompiled static library")
 
 add_subdirectory(
 	${CMAKE_SOURCE_DIR}/external/CLI11
 	${CMAKE_BINARY_DIR}/CLI11
 )
-add_subdirectory(external/zxing/core)
 
+# ZXING
+set(ZXING_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(ZXING_UNIT_TESTS OFF CACHE BOOL "" FORCE)
+set(ZXING_BLACKBOX_TESTS OFF CACHE BOOL "" FORCE)
+
+set(ZXING_READERS ON CACHE BOOL "" FORCE)
+set(ZXING_WRITERS ON CACHE STRING "" FORCE)
+set(ZXING_USE_BUNDLED_ZINT ON CACHE BOOL "" FORCE)
+
+add_subdirectory(external/zxing)
+
+# app
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
 	${CMAKE_SOURCE_DIR}/src/*.cpp
 )

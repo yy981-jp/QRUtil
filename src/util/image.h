@@ -6,7 +6,7 @@
 #include <ImageView.h>
 
 
-ZXing::Barcode readImg(const std::string& filename) {
+ZXing::Barcode parseImg(const std::string& filename) {
 	int width;
 	int height;
 	int channels;
