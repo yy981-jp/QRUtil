@@ -1,0 +1,9 @@
+[submodule "external/CLI11"]
+	path = external/CLI11
+	url = https://github.com/CLIUtils/CLI11.git
+[submodule "external/zxing"]
+	path = external/zxing
+	url = https://github.com/zxing-cpp/zxing-cpp.git
+[submodule "external/stb"]
+	path = external/stb
+	url = https://github.com/nothings/stb.git
