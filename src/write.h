@@ -54,7 +54,7 @@ void write(const WriteCtx& ctx, const std::string& target) {
 
 	auto barcode = ZXing::CreateBarcodeFromText(
 		text,
-		ZXing::BarcodeFormat::QRCode
+		ctx.format
 	);
 
 
