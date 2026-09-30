@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
 	subWrite->add_option("-o", writeCtx.ofile, "出力先")->default_val("code.png");
 	subWrite->add_option("--size", writeCtx.size, "2次元コードのサイズ")->default_val(10);
 	subWrite->add_flag("--no-margin", no_margin, "余白を生成しない")->default_val(false);
-	subWrite->add_flag("--terminal", writeCtx.terminal, "コンソール上に2次元コードを表示")->default_val(false);
+	subWrite->add_flag("--terminal,-m", writeCtx.terminal, "コンソール上に2次元コードを表示")->default_val(false);
 
 	subWrite->add_option("--format", writeCtx.format, 
 		"2次元コードの形式\n[利用可能な形式]:\n" + listNames(formats))
