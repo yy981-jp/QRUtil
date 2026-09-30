@@ -69,8 +69,8 @@ int main(int argc, char *argv[]) {
 	// subcmd: read
 	auto subRead = app.add_subcommand("r", "Read (Parse) mode");
 	addCommonOptions(subRead);
-	bool showDatail = false;
-	subRead->add_flag("-d,--datail", showDatail, "2次元コードの詳細も表示");
+	bool showDetail = false;
+	subRead->add_flag("-d,--detail", showDetail, "2次元コードの詳細も表示");
 
 
 
@@ -86,7 +86,7 @@ int main(int argc, char *argv[]) {
 	} else if (subRead->parsed()) {
 		const auto& code = parseImg(target);
 	
-		if (showDatail) {
+		if (showDetail) {
 			std::cout << std::format(
 				"形式:\t{}\n"
 				"内容:\t{}\n"
